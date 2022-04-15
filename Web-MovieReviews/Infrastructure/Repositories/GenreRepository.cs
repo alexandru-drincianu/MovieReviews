@@ -20,7 +20,7 @@ namespace Infrastructure.Repositories
         }
         public async Task Add(Genre genre)
         {
-            _context.Genres.Add(genre);
+            await _context.Genres.AddAsync(genre);
             await _context.SaveChangesAsync();
         }
 
