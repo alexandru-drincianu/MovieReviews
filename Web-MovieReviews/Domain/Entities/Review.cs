@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Review : BaseEntity
+    public class Review 
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public int MovieId { get; set; }
         public double Rating { get; set; }

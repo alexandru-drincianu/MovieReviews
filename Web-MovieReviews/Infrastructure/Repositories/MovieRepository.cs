@@ -29,6 +29,7 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Movie>> GetAll()
         {
             var movies = _context.Movies
+                .Include(m => m.Genres)
                 .Include(m => m.Reviews)
                 .ToListAsync();
             return await movies;
@@ -37,6 +38,7 @@ namespace Infrastructure.Repositories
         public async Task<Movie> GetById(int id)
         {
             var movie = _context.Movies
+                .Include(_m => _m.Genres)
                 .Include(_m => _m.Reviews)
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
