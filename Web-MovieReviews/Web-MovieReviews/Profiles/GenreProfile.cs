@@ -15,6 +15,7 @@ namespace Web_MovieReviews.Profiles
             CreateMap<GenreGetDto, Genre>()
                 .ForMember(p => p.GenreName, opt => opt.MapFrom(s => s.GenreName))
                 .ForMember(p => p.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(p =>p.Movies, opt => opt.MapFrom(s => s.Movies))
                 .ReverseMap();
 
         }

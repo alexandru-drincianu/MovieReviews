@@ -7,7 +7,7 @@ using Web_MovieReviews.Dtos;
 
 namespace Web_MovieReviews.Controllers
 {
-    [Route("api/genres")]
+    [Route("api/[controller]")]
     [ApiController]
     public class GenresController : ControllerBase
     {

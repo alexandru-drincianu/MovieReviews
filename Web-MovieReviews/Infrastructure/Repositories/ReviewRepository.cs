@@ -31,7 +31,12 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Review> GetByUserOnMovie(int userId, int movieId) 
+        public async Task<Review> GetById(int id)
+        {
+            return await _context.Reviews.FindAsync(id);
+        }
+
+        public async Task<Review> GetByUserOnMovie(Guid userId, int movieId) 
         { 
             return await _context.Reviews
                 .FirstOrDefaultAsync(review => review.UserId == userId && review.MovieId == movieId);

@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Application.Movies.Queries.SearchForMovie
 {
-    public class User : IdentityUser<Guid>
+    public class SearchForMovieQuery : IRequest<List<Movie>>
     {
         public string Name { get; set; }
-        public ICollection<Review> Reviews { get; set; }
     }
 }
