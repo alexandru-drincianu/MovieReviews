@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:movie_reviews_app/screens/LandingPage.dart';
+import 'package:movie_reviews_app/test.dart';
 
 import 'utils/constants.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -35,12 +35,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Movie App',
       theme: ThemeData(
-        colorScheme: defaultColorScheme,
-        primarySwatch: Colors.blue,
-        textTheme: screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT,
-        fontFamily: "Montserrat"
-      ),
-      home: const LandingPage(),
+          colorScheme: defaultColorScheme,
+          primarySwatch: Colors.blue,
+          textTheme: screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT,
+          fontFamily: "Montserrat"),
+      home: const UserTest(),
     );
   }
 }
