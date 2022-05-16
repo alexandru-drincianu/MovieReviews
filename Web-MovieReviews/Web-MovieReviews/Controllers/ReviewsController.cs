@@ -2,6 +2,7 @@
 using Application.Reviews.Commands.DeleteReview;
 using Application.Reviews.Commands.UpdateReview;
 using Application.Reviews.Queries.GetReviewById;
+using Application.Reviews.Queries.GetReviews;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -70,7 +71,8 @@ namespace Web_MovieReviews.Controllers
             var result = await _mediator.Send(command);
             if (result == null)
                 return NotFound();
-            return NoContent();
+            var mappedResult = _mapper.Map<ReviewGetDto>(result);
+            return Ok(mappedResult);
         }
 
         [HttpDelete]
@@ -80,6 +82,15 @@ namespace Web_MovieReviews.Controllers
             var command = new DeleteReviewCommand() { Id = id };
             var result = await _mediator.Send(command);
             return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetReviews()
+        {
+            var query = new GetReviewsQuery();
+            var result = await _mediator.Send(query);
+            var mappedResult = _mapper.Map<IEnumerable<ReviewGetDto>>(result);
+            return Ok(mappedResult);
         }
     }
 }

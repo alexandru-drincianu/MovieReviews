@@ -1,5 +1,6 @@
 ﻿using Application.Genres.Commands.CreateGenre;
 using Application.Genres.Queries.GetGenreById;
+using Application.Genres.Queries.GetGenres;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,16 @@ namespace Web_MovieReviews.Controllers
                 return NotFound();
 
             var mappedResult = _mapper.Map<GenreGetDto>(result);
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGenres()
+        {
+            var query = new GetGenresQuery();
+            var result = await _mediator.Send(query);
+
+            var mappedResult = _mapper.Map<IEnumerable<GenreGetDto>>(result);
             return Ok(mappedResult);
         }
     }

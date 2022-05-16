@@ -31,6 +31,11 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<Review>> GetAll()
+        {
+            return await _context.Reviews.Include(r => r.User).ToListAsync();
+        }
+
         public async Task<Review> GetById(int id)
         {
             return await _context.Reviews
