@@ -10,6 +10,8 @@ namespace Web_MovieReviews.Profiles
         {
             CreateMap<ReviewGetDto, Review>()
                 .ForMember(p => p.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(p => p.MovieId, opt => opt.MapFrom(s => s.MovieId))
+                .ForMember(p => p.UserId, opt => opt.MapFrom(s => s.UserId))
                 .ForPath(p => p.User.Name, opt => opt.MapFrom(s => s.UserName))
                 .ForMember(p => p.Rating, opt => opt.MapFrom(s => s.Rating))
                 .ForMember(p => p.ReviewDescription, opt => opt.MapFrom(s => s.Description))

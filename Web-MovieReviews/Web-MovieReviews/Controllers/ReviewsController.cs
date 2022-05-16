@@ -1,4 +1,6 @@
 ﻿using Application.Reviews.Commands.AddReview;
+using Application.Reviews.Commands.DeleteReview;
+using Application.Reviews.Commands.UpdateReview;
 using Application.Reviews.Queries.GetReviewById;
 using AutoMapper;
 using MediatR;
@@ -51,6 +53,33 @@ namespace Web_MovieReviews.Controllers
 
             var mappedResult = _mapper.Map<ReviewGetDto>(result);
             return Ok(mappedResult);
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateReview(int id, [FromBody] ReviewPutPostDto review)
+        {
+            var command = new UpdateReviewCommand()
+            {
+                Id = id,
+                UserId = review.UserId,
+                MovieId = review.MovieId,
+                Rating = review.Rating,
+                ReviewDescription = review.Description
+            };
+            var result = await _mediator.Send(command);
+            if (result == null)
+                return NotFound();
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var command = new DeleteReviewCommand() { Id = id };
+            var result = await _mediator.Send(command);
+            return NoContent();
         }
     }
 }

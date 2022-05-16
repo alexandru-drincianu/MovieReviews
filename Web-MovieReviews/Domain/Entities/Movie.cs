@@ -11,6 +11,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string MoviePicture { get; set; }
         public ICollection<Genre> Genres { get; set; }
         public ICollection<Review> Reviews { get; set; }
     }

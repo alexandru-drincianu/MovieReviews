@@ -28,7 +28,13 @@ namespace Web_MovieReviews.Controllers
 
             //var command = _mapper.Map<CreateGenreCommand>(genre);
             //var created = await _mediator.Send(command);
-            var created = await _mediator.Send(new CreateMovieCommand { Title = movie.Title, Description = movie.Description, GenresIds = movie.GenresIds} );
+            var created = await _mediator.Send(new CreateMovieCommand 
+            { 
+                Title = movie.Title, 
+                Description = movie.Description, 
+                MoviePicture = movie.MoviePicture,
+                GenresIds = movie.GenresIds
+            } );
             var dto = _mapper.Map<MovieGetDto>(created);
 
             return CreatedAtAction(nameof(GetMovieById), new { movieId = created.Id }, dto);

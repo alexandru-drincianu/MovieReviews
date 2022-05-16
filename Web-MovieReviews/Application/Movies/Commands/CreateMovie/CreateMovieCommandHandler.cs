@@ -21,7 +21,7 @@ namespace Application.Movies.Commands.CreateMovie
         }
         public async Task<Movie> Handle(CreateMovieCommand request, CancellationToken cancellationToken)
         {
-            var movie = new Movie { Title = request.Title, Description = request.Description , Genres = new List<Genre>(), Reviews = new List<Review>()};
+            var movie = new Movie { Title = request.Title, Description = request.Description ,MoviePicture = request.MoviePicture, Genres = new List<Genre>(), Reviews = new List<Review>()};
             foreach (var id in request.GenresIds)
             {
                 var genre = await _genreRepository.GetById(id);

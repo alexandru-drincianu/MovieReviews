@@ -33,7 +33,9 @@ namespace Infrastructure.Repositories
 
         public async Task<Review> GetById(int id)
         {
-            return await _context.Reviews.FindAsync(id);
+            return await _context.Reviews
+                .Include(r => r.User)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<Review> GetByUserOnMovie(Guid userId, int movieId) 
