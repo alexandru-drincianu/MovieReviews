@@ -44,7 +44,7 @@ class _DetailPageState extends State<DetailPage> {
                   children: [
                     Stack(
                       children: [
-                        Image.asset(widget.itemData["image"]),
+                        Image.asset(widget.itemData.moviePicture),
                         Positioned(
                           width: size.width,
                           top: padding,
@@ -92,12 +92,12 @@ class _DetailPageState extends State<DetailPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${widget.itemData["name"]}",
+                                "${widget.itemData.title}",
                                 style: themeData.textTheme.headline1,
                               ),
                               addVerticalSpace(5),
                               Text(
-                                "${widget.itemData["year"]}",
+                                "${widget.itemData.year}",
                                 style: themeData.textTheme.subtitle2,
                               ),
                             ],
@@ -151,7 +151,7 @@ class _DetailPageState extends State<DetailPage> {
                     Padding(
                       padding: sidePadding,
                       child: Text(
-                        widget.itemData["description"],
+                        widget.itemData.description,
                         textAlign: TextAlign.justify,
                         style: themeData.textTheme.bodyText2,
                       ),

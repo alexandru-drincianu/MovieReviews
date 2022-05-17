@@ -1,10 +1,14 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_reviews_app/screens/RegisterPage.dart';
 
+import '../model/userServices.dart';
 import '../widgets/nav-drawer.dart';
 import 'LandingPage.dart';
 
+late User loggedInUser;
+bool isLoggedIn = false;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, required this.title}) : super(key: key);
@@ -16,7 +20,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  late Future<List<User>> futureUser;
   var rememberValue = false;
+  late String _email = "";
+  late String _password = "";
+
+  @override
+  void initState() {
+    super.initState();
+    futureUser = fetchUsersList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +56,21 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
+                    validator: (value) {
+                      setState(() {
+                        _email = value!;
+                      });
+                      String mess;
+                      EmailValidator.validate(value)
+                          ? mess = ""
+                          : mess = "Please enter a valid email";
+                      if (mess == "") return null;
+                      return mess;
+                    },
                     maxLines: 1,
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
-                      prefixIcon  : const Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -63,7 +84,9 @@ class _LoginPageState extends State<LoginPage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
-                      return null;
+                      setState(() {
+                        _password = value;
+                      });
                     },
                     maxLines: 1,
                     obscureText: true,
@@ -80,12 +103,22 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const LandingPage()),
-                      );
-                      }
+                      futureUser.then((users) {
+                        for (var user in users) {
+                          if (_formKey.currentState!.validate()) {
+                            if (user.email == _email &&
+                                user.password == _password) {
+                              loggedInUser = user;
+                              isLoggedIn = true;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LandingPage()),
+                              );
+                            }
+                          }
+                        }
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -103,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Not registered yet?'),
+                      const Text("Not registered yet?"),
                       TextButton(
                         onPressed: () {
                           Navigator.pushReplacement(

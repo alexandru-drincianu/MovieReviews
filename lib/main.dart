@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           textTheme: screenWidth < 500 ? TEXT_THEME_SMALL : TEXT_THEME_DEFAULT,
           fontFamily: "Montserrat"),
-      home: const UserTest(),
+      home: const LandingPage(),
     );
   }
 }

@@ -25,40 +25,54 @@ class NavDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: const Icon(Icons.movie),
-            title: const Text('Home'),
-            onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LandingPage()),
-            );
-          }
-          ),
+              leading: const Icon(Icons.movie),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                );
+              }),
           ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Favorite'),
-            onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LandingPage()),
-            );
-          }
-          ),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Favorite'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                );
+              }),
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
             onTap: () => {Navigator.of(context).pop()},
           ),
-          ListTile(
-            leading: const Icon(Icons.login),
-            title: const Text('LogIn'),
-            onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginPage(title: 'LogIn Page',)),
-            );
-          },
-          ),
+          if (isLoggedIn == false)
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: const Text('LogIn'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const LoginPage(
+                            title: 'LogIn Page',
+                          )),
+                );
+              },
+            ),
+          if (isLoggedIn == true)
+            ListTile(
+              leading: const Icon(Icons.login),
+              title: const Text('Log Out'),
+              onTap: () {
+                isLoggedIn = false;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LandingPage()),
+                );
+              },
+            ),
         ],
       ),
     );

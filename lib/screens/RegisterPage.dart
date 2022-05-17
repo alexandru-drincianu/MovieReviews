@@ -1,6 +1,6 @@
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import '../model/userServices.dart';
 import 'LoginPage.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -14,6 +14,10 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
+  Future<User>? _futureUser;
+  late String _email;
+  late String _password;
+  late String _name;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,14 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: [
                   TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      setState(() {
+                        _name = value;
+                      });
+                    },
                     maxLines: 1,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.person),
@@ -53,9 +65,17 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 20,
                   ),
                   TextFormField(
-                    validator: (value) => EmailValidator.validate(value!)
-                        ? null
-                        : "Please enter a valid email",
+                    validator: (value) {
+                      setState(() {
+                        _email = value!;
+                      });
+                      String mess;
+                      EmailValidator.validate(value)
+                          ? mess = ""
+                          : mess = "Please enter a valid email";
+                      if (mess == "") return null;
+                      return mess;
+                    },
                     maxLines: 1,
                     decoration: InputDecoration(
                       hintText: 'Enter your email',
@@ -73,7 +93,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
-                      return null;
+                      setState(() {
+                        _password = value;
+                      });
                     },
                     maxLines: 1,
                     obscureText: true,
@@ -90,7 +112,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          _futureUser = createUser(_name, _email, _password);
+                        });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
