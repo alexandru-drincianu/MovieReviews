@@ -6,6 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import AddMovie from './components/AddMovie/AddMovie';
+import BrowseMovie from './components/BrowseMovie';
+import MoviePage from './components/MoviePage/MoviePage';
 
 const App = () => {
   return (
@@ -15,6 +17,8 @@ const App = () => {
         <Route exact path="/signin" element={<SignIn />}></Route>
         <Route exact path="/signup" element={<SignUp />}></Route>
         <Route exact path="/addmovie" element={<AddMovie />}></Route>
+        <Route exact path="/movies" element={<BrowseMovie />}></Route>
+        <Route exact path="/movies/:id" element={<MoviePage />}></Route>
       </Routes>
     </BrowserRouter>
   );

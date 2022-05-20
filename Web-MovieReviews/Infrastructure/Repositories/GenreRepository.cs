@@ -34,10 +34,7 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Genre>> GetAll()
         {
-            var genres = _context.Genres
-                .Include(x => x.Movies)
-                .ToListAsync();
-            return await genres;
+            return await _context.Genres.Include(g => g.Movies).ToListAsync();
         }
 
         public async Task<Genre> GetById(int id)

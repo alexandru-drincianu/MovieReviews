@@ -1,6 +1,7 @@
 ﻿using Application.Reviews.Commands.AddReview;
 using Application.Reviews.Commands.DeleteReview;
 using Application.Reviews.Commands.UpdateReview;
+using Application.Reviews.Queries.GetNoOfReviews;
 using Application.Reviews.Queries.GetReviewById;
 using Application.Reviews.Queries.GetReviews;
 using AutoMapper;
@@ -53,6 +54,17 @@ namespace Web_MovieReviews.Controllers
                 return NotFound();
 
             var mappedResult = _mapper.Map<ReviewGetDto>(result);
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("ratings/{movieId}")]
+        public async Task<IActionResult> GetRatingNo(int movieId)
+        {
+            var query = new GetNoOfReviewsQuery() { Id = movieId };
+            var result = await _mediator.Send(query);
+                
+            var mappedResult = _mapper.Map<List<RatingGroupDto>>(result);
             return Ok(mappedResult);
         }
 

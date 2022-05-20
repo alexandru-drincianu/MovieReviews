@@ -40,6 +40,7 @@ namespace Infrastructure.Repositories
             var movie = _context.Movies
                 .Include(_m => _m.Genres)
                 .Include(_m => _m.Reviews)
+                .ThenInclude(r => r.User)
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
             return await movie;

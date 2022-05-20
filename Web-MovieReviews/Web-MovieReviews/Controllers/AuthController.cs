@@ -39,7 +39,7 @@ namespace Web_MovieReviews.Controllers
             if (loginResult)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                return Ok(GenerateJwt(user, roles));
+                return Ok(new { tk = GenerateJwt(user, roles), Id = user.Id, role = roles });
             }
             return BadRequest("Invalid credentials.");
         }

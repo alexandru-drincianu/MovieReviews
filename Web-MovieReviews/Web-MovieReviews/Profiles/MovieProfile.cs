@@ -21,8 +21,8 @@ namespace Web_MovieReviews.Profiles
                 .ForMember(p => p.MoviePicture, opt => opt.MapFrom(s => s.MoviePicture))
                 .ReverseMap();
 
-            CreateMap<Genre, GenreDto>();
-            //CreateMap<Review, ReviewDto>();
+            CreateMap<Genre, GenreDto>().ReverseMap();
+            CreateMap<Review, ReviewGetDto>().ReverseMap();
         }
 
     }

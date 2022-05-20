@@ -8,6 +8,8 @@ import { addMovie, api } from "../../api";
 import '@fontsource/roboto/500.css';
 import IconButton from "@mui/material/IconButton";
 import { ADD_MOVIE } from "../../constants/actionTypes";
+import NavBar from "../NavBar/NavBar";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const initialState = {
     title: '',
@@ -45,14 +47,15 @@ const AddMovie = () => {
             title: formData.title,
             description: formData.description,
             moviePicture: formData.moviePicture,
-            genresIds: formData.genresIds
+            genresIds: genresId
         }
-        //console.log(movieInfo);
+        console.log(movieInfo);
         //console.log(genresId);
         //dispatch(addMovie(movieInfo));
         api.post('Movies', movieInfo)
           .then(function (response) {
-            dispatch({type: ADD_MOVIE, payload: response.data })
+            dispatch({type: ADD_MOVIE, payload: response.data });
+            console.log(response.data);
           })
           .catch(function (error) {
             console.log(error);
@@ -61,7 +64,9 @@ const AddMovie = () => {
 
 
     return(
-        <>{
+        <>
+        <NavBar />
+        {
             genres &&
         
         <Grid container
@@ -74,7 +79,7 @@ const AddMovie = () => {
                 <Paper style={{width: '400px', padding: '20px'}} elevation={5}>
                     <Grid container spacing={2} alignItems="center">
                         <Grid item xs={12} align="center">
-                            <Typography variant="h5">Add a book</Typography>
+                            <Typography variant="h5">Add a movie</Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <div>
