@@ -14,6 +14,11 @@ const NavBar = () => {
         navigate('/addmovie');
     }
 
+    const handleLogOut = () => {
+        localStorage.clear();
+        navigate('/');
+    }
+
     return(
     <>
         <AppBar position="static" style={{background: '#AC9CC1', boxShadow: "none"}}>
@@ -38,7 +43,7 @@ const NavBar = () => {
                     </Grid>
                     <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button>
                     <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}}>Search Your Movies</Button>
-                    <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}}>Log out</Button>
+                    <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleLogOut}>Log out</Button>
                 </Toolbar>
             </Container>
         </AppBar>

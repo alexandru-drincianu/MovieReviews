@@ -24,6 +24,7 @@ const AddMovie = () => {
     const [genres, setGenres] = useState([]);
     const [genresId, setGenresId] = useState([]);
     const [selected, setSelected] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         api.get('Genres')
@@ -56,6 +57,7 @@ const AddMovie = () => {
           .then(function (response) {
             dispatch({type: ADD_MOVIE, payload: response.data });
             console.log(response.data);
+            navigate(`/movies/${response.data.id}`);
           })
           .catch(function (error) {
             console.log(error);
