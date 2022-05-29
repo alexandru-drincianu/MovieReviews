@@ -7,6 +7,7 @@ import '@fontsource/roboto/400.css';
 
 const NavBar = () => {
     const pathname = window.location.pathname;
+    const userRole = localStorage.getItem('role');
     console.log(pathname);
     const navigate = useNavigate();
     
@@ -41,7 +42,7 @@ const NavBar = () => {
                             </NavLink>
                         </Grid>
                     </Grid>
-                    <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button>
+                    {userRole === 'admin' && <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button> }
                     <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}}>Search Your Movies</Button>
                     <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleLogOut}>Log out</Button>
                 </Toolbar>
