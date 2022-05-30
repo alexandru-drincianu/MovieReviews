@@ -11,5 +11,6 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
         public ICollection<Review> Reviews { get; set; }
+        public Favourites Favourites { get; set; } = new Favourites() { FavouriteMovies = new List<Movie>()};
     }
 }

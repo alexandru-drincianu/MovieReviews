@@ -24,6 +24,7 @@ builder.Services.AddMediatR(typeof(AssemblyMarker));
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<IActorRepository, ActorRepository>();
 
 //db and identity
 var connectionString = builder.Configuration.GetConnectionString("Default");

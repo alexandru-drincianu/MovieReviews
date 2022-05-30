@@ -8,5 +8,6 @@
         public string MoviePicture { get; set; }
         public ICollection<GenreDto> Genres { get; set; }
         public ICollection<ReviewGetDto> Reviews { get; set; }
+        public ICollection<ActorGetDto> Actors { get; set; }
     }
 }

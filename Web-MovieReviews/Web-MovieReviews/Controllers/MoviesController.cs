@@ -34,7 +34,8 @@ namespace Web_MovieReviews.Controllers
                 Title = movie.Title, 
                 Description = movie.Description, 
                 MoviePicture = movie.MoviePicture,
-                GenresIds = movie.GenresIds
+                GenresIds = movie.GenresIds,
+                ActorsIds = movie.ActorsIds,
             } );
             var dto = _mapper.Map<MovieGetDto>(created);
 

@@ -14,5 +14,7 @@ namespace Domain.Entities
         public string MoviePicture { get; set; }
         public ICollection<Genre> Genres { get; set; }
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<Actor> Actors { get; set; }
+        public ICollection<Favourites> Favourites { get; set; } = new List<Favourites>();
     }
 }
