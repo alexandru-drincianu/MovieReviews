@@ -1,6 +1,7 @@
 ﻿using Application.Movies.Commands.CreateMovie;
 using Application.Movies.Queries.GetMovieById;
 using Application.Movies.Queries.SearchForMovie;
+using Application.Movies.Queries.GetMovies;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,17 @@ namespace Web_MovieReviews.Controllers
             if (result == null)
                 return NotFound();
             var mappedResult = _mapper.Map<List<MovieGetDto>>(result);
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public async Task<IActionResult> getMovies()
+        {
+            var query = new GetMoviesQuery();
+            var result = await _mediator.Send(query);
+
+            var mappedResult = _mapper.Map<IEnumerable<MovieGetDto>>(result);
             return Ok(mappedResult);
         }
     }

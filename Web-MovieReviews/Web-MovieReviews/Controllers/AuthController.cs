@@ -38,8 +38,9 @@ namespace Web_MovieReviews.Controllers
             var loginResult = await _userManager.CheckPasswordAsync(user, userLogin.Password);
             if (loginResult)
             {
+                var email = await _userManager.GetEmailAsync(user);
                 var roles = await _userManager.GetRolesAsync(user);
-                return Ok(new { tk = GenerateJwt(user, roles), Id = user.Id, role = roles });
+                return Ok(new { tk = GenerateJwt(user, roles), Id = user.Id, role = roles, name=user.Name, email=user.Email});
             }
             return BadRequest("Invalid credentials.");
         }
@@ -51,7 +52,7 @@ namespace Web_MovieReviews.Controllers
             var userCreateResult = await _userManager.CreateAsync(user, userRegister.Password);
             var result = await _userManager.AddToRoleAsync(user, "regular");
             if (userCreateResult.Succeeded && result.Succeeded)
-                return Created(string.Empty, string.Empty);
+                return Created("Message", "Successfully created");
             return Problem(userCreateResult.Errors.First().Description, null, 500);
         }
 
