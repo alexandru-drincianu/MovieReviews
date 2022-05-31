@@ -16,7 +16,7 @@ namespace Infrastructure.Migrations
                 defaultValue: 0);
 
             migrationBuilder.CreateTable(
-                name: "Actor",
+                name: "Actors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -54,7 +54,7 @@ namespace Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_ActorMovie_Actor_ActorsId",
                         column: x => x.ActorsId,
-                        principalTable: "Actor",
+                        principalTable: "Actors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -126,7 +126,7 @@ namespace Infrastructure.Migrations
                 name: "FavouritesMovie");
 
             migrationBuilder.DropTable(
-                name: "Actor");
+                name: "Actors");
 
             migrationBuilder.DropTable(
                 name: "Favourites");
