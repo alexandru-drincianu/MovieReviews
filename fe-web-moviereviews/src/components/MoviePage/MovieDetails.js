@@ -2,6 +2,7 @@ import { CircularProgress, Divider, Rating, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { api } from "../../api";
+import ActorsCarousel from "./Actors/ActorsCarousel";
 import ReviewsPage from "./Reviews/ReviewsPage";
 
 const userId = localStorage.getItem('id');
@@ -75,6 +76,8 @@ const MovieDetails = ({id}) => {
                     </div>
                 </div>
             </div>
+            <Divider variant="middle" flexItem style={{padding: 20}}/>
+            <ActorsCarousel actors={movie.actors} />
             <Divider variant="middle" flexItem style={{padding: 20}}/>
             <ReviewsPage noOfRatings={noOfRatings} movieId={id} reviews={reviews} totalReviewsLength={totalReviewsLength}/>
             </>

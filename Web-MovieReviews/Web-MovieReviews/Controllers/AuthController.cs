@@ -50,8 +50,8 @@ namespace Web_MovieReviews.Controllers
         {
             var user = _mapper.Map<UserRegisterDto, User>(userRegister);
             var userCreateResult = await _userManager.CreateAsync(user, userRegister.Password);
-            //var result = await _userManager.AddToRoleAsync(user, "regular");
-            if (userCreateResult.Succeeded /*&& result.Succeeded*/)
+            var result = await _userManager.AddToRoleAsync(user, "regular");
+            if (userCreateResult.Succeeded && result.Succeeded)
                 return Created("Message", "Successfully created");
             return Problem(userCreateResult.Errors.First().Description, null, 500);
         }
