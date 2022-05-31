@@ -16,6 +16,10 @@ const NavBar = () => {
         navigate('/addmovie');
     }
 
+    const handleAddActor = () => {
+        navigate('/addactor');
+    }
+
     const handleLogOut = () => {
         localStorage.clear();
         navigate('/');
@@ -44,7 +48,12 @@ const NavBar = () => {
                         </Grid>
                     </Grid>
                     <SearchBar />
-                    {userRole === 'admin' && <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button> }
+                    {userRole === 'admin' && 
+                    <>
+                    <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button> 
+                    <Button variant="text" style={pathname === '/addactor' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddActor}>Add an actor</Button> 
+                    </>
+                    }
                     <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleLogOut}>Log out</Button>
                 </Toolbar>
             </Container>
