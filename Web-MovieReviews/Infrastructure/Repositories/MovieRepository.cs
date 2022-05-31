@@ -29,8 +29,10 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Movie>> GetAll()
         {
             var movies = _context.Movies
-                .Include(m => m.Genres)
-                .Include(m => m.Reviews)
+                .Include(_m => _m.Genres)
+                .Include(_m => _m.Reviews)
+                .ThenInclude(r => r.User)
+                .Include(_m => _m.Actors)
                 .ToListAsync();
             return await movies;
         }
