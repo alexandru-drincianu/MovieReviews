@@ -11,5 +11,6 @@ namespace Application.Interfaces
     {
         Task<Actor> GetById(int id);
         Task Add(Actor actor);
+        Task<List<Actor>> GetAll();
     }
 }

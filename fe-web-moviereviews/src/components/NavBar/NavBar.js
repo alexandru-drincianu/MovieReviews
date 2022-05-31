@@ -4,6 +4,7 @@ import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../../images/film-reel.png';
 import '@fontsource/roboto/400.css';
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
     const pathname = window.location.pathname;
@@ -42,8 +43,8 @@ const NavBar = () => {
                             </NavLink>
                         </Grid>
                     </Grid>
+                    <SearchBar />
                     {userRole === 'admin' && <Button variant="text" style={pathname === '/addmovie' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleAddMovie}>Add a movie</Button> }
-                    <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}}>Search Your Movies</Button>
                     <Button variant="text" style={pathname === '/search' ? {fontWeight: 700, color: 'black' , width: 350, textDecoration: 'none'} : { color: 'black', width: 350, textDecoration: 'none'}} onClick={handleLogOut}>Log out</Button>
                 </Toolbar>
             </Container>

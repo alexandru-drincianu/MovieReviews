@@ -31,5 +31,10 @@ namespace Infrastructure.Repositories
                 .FirstOrDefaultAsync();
             return actor;
         }
+
+        public async Task<List<Actor>> GetAll()
+        {
+            return await _context.Actors.ToListAsync();
+        }
     }
 }

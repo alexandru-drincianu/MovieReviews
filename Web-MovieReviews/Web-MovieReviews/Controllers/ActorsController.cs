@@ -1,5 +1,6 @@
 ﻿using Application.Actors.Commands.CreateActor;
 using Application.Actors.Queries.GetActorById;
+using Application.Actors.Queries.GetAllActors;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,15 @@ namespace Web_MovieReviews.Controllers
                 return NotFound();
 
             var mappedResult = _mapper.Map<ActorGetDto>(result);
+            return Ok(mappedResult);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var query = new GetAllActorsQuery();
+            var result = await _mediator.Send(query);
+            var mappedResult = _mapper.Map<List<ActorGetDto>>(result);
             return Ok(mappedResult);
         }
     }

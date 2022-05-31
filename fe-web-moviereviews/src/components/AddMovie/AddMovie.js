@@ -15,7 +15,9 @@ const initialState = {
     title: '',
     description: '',
     moviePicture: '',
-    genresIds: []};
+    genresIds: [],
+    actorsIds: []
+};
 
 const AddMovie = () => {
     //const {book, dispatch} = useContext(BooksContext);
@@ -24,6 +26,8 @@ const AddMovie = () => {
     const [genres, setGenres] = useState([]);
     const [genresId, setGenresId] = useState([]);
     const [selected, setSelected] = useState([]);
+    const [actors, setActors] = useState([]);
+    const [actorsOnlyIds, setActorsOnlyIds] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,6 +41,16 @@ const AddMovie = () => {
         })
     }, []);
 
+    useEffect(() => {
+        api.get('Actors')
+        .then(response => {
+            setActors(response.data);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
         console.log(e.target.value);
@@ -44,11 +58,15 @@ const AddMovie = () => {
     }
 
     const sendNewMovie = () => {
+        let list = [];
+        actorsOnlyIds.forEach(actor => list.push(actor.id));
+
         const movieInfo = {
             title: formData.title,
             description: formData.description,
             moviePicture: formData.moviePicture,
-            genresIds: genresId
+            genresIds: genresId,
+            actorsIds: list
         }
         console.log(movieInfo);
         //console.log(genresId);
@@ -69,7 +87,7 @@ const AddMovie = () => {
         <>
         <NavBar />
         {
-            genres &&
+            genres.length && actors.length &&
         
         <Grid container
         spacing={0}
@@ -117,6 +135,24 @@ const AddMovie = () => {
                         }
                         />
                         <Typography variant="body2">{selected}</Typography>
+                        </Grid>
+                        <Grid item xs = {12}>
+                        <Autocomplete
+                            multiple
+                            id="tags-outlined"
+                            options={actors}
+                            getOptionLabel={(option) => option.name}
+                            defaultValue={[actors[0]]}
+                            filterSelectedOptions
+                            onChange={(event, newValue) => {setActorsOnlyIds(newValue)}}
+                            renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="filterSelectedOptions"
+                                placeholder="Choose actors"
+                            />
+                            )}
+                        />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField name="description" multiline minRows={5} label="Description" fullWidth variant="standard" onChange={handleChange}/>
