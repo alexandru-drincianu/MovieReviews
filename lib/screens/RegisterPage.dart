@@ -14,7 +14,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   var rememberValue = false;
-  Future<User>? _futureUser;
+  Future<dynamic>? _futureUser;
   late String _email;
   late String _password;
   late String _name;
@@ -116,6 +116,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         setState(() {
                           _futureUser = createUser(_name, _email, _password);
                         });
+                        if (_futureUser != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage(
+                                      title: 'LoginPage',
+                                    )),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Account successfully created.'),
+                            ),
+                          );
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(

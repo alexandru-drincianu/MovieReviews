@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_reviews_app/screens/LandingPage.dart';
 
+import '../screens/FavoritePage.dart';
 import '../screens/LoginPage.dart';
 
 class NavDrawer extends StatelessWidget {
@@ -33,20 +34,17 @@ class NavDrawer extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const LandingPage()),
                 );
               }),
-          ListTile(
-              leading: const Icon(Icons.favorite),
-              title: const Text('Favorite'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LandingPage()),
-                );
-              }),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
+          if (isLoggedIn == true)
+            ListTile(
+                leading: const Icon(Icons.favorite),
+                title: const Text('Favorite'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const FavoritePage()),
+                  );
+                }),
           if (isLoggedIn == false)
             ListTile(
               leading: const Icon(Icons.login),

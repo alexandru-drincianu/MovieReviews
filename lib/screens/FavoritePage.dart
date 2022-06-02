@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:movie_reviews_app/model/userServices.dart';
 import 'package:movie_reviews_app/screens/LoginPage.dart';
 import 'package:movie_reviews_app/screens/SortedPage.dart';
 import '../model/genreServices.dart';
@@ -14,32 +15,31 @@ import '../utils/constants.dart';
 import '../utils/custom_functions.dart';
 import '../utils/widget_functions.dart';
 import '../widgets/nav-drawer.dart';
-import 'dart:convert';
 
-class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+class FavoritePage extends StatefulWidget {
+  const FavoritePage({Key? key}) : super(key: key);
 
   @override
-  _LandingPageState createState() => _LandingPageState();
+  _FavoritePageState createState() => _FavoritePageState();
 }
 
-class _LandingPageState extends State<LandingPage> {
-  late Future<List<Movie>> futureMovie;
+class _FavoritePageState extends State<FavoritePage> {
   late Future<List<Genre>> futureGenre;
+  late Future<List<Movie>> futureFavoriteMovie;
 
-  late List<Movie> _movies = [];
+  late List<Movie> _favorite = [];
   late List<Genre> _genres = [];
 
   List<Movie> getMovies() {
-    return _movies;
+    return _favorite;
   }
 
   @override
   void initState() {
-    futureMovie = fetchMoviesList();
-    futureMovie.then((movies) {
+    futureFavoriteMovie = getUserFavorites(loggedInUser.id);
+    futureFavoriteMovie.then((movies) {
       setState(() {
-        _movies = movies;
+        _favorite = movies;
       });
     });
 
@@ -88,29 +88,15 @@ class _LandingPageState extends State<LandingPage> {
                       height: 25,
                       color: COLOR_GREY,
                     )),
-                SizedBox(
-                  height: 60,
-                  child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: _genres.length,
-                      itemBuilder: (context, index) {
-                        return GenreItem(
-                          itemData: _genres[index],
-                          key: null,
-                        );
-                      }),
-                ),
                 Expanded(
                   child: Padding(
                     padding: sidePadding,
                     child: ListView.builder(
                         physics: BouncingScrollPhysics(),
-                        itemCount: _movies.length,
+                        itemCount: _favorite.length,
                         itemBuilder: (context, index) {
                           return MovieItem(
-                            itemData: _movies[index],
+                            itemData: _favorite[index],
                             key: null,
                           );
                         }),
@@ -120,36 +106,6 @@ class _LandingPageState extends State<LandingPage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ChoiceOption extends StatelessWidget {
-  final dynamic itemData;
-  final String text;
-
-  const ChoiceOption({Key? key, required this.itemData, required this.text})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      margin: const EdgeInsets.only(left: 8),
-      child: TextButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => SortedPage(
-                    itemData: itemData.movies,
-                  )));
-        },
-        style: TextButton.styleFrom(
-          backgroundColor: COLOR_GREY.withAlpha(25),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        ),
-        child: Text(text, style: themeData.textTheme.headline4),
       ),
     );
   }
@@ -165,11 +121,10 @@ class MovieItem extends StatelessWidget {
     final ThemeData themeData = Theme.of(context);
     String allGenres = "";
     for (var sub in itemData.genres) {
-      // ignore: prefer_interpolation_to_compose_strings
-      allGenres = "$allGenres " + sub['genreName'];
+      allGenres = allGenres + sub['genreName'];
     }
 
-    var image = itemData.moviePicture.split(",");
+    var movieImage = itemData.moviePicture.split(",");
 
     return GestureDetector(
       onTap: () {
@@ -187,7 +142,7 @@ class MovieItem extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
-                    child: Image.memory(base64.decode(image[1]))),
+                    child: Image.memory(base64.decode(movieImage[1]))),
               ],
             ),
             addVerticalSpace(15),
@@ -206,36 +161,10 @@ class MovieItem extends StatelessWidget {
             ),
             addVerticalSpace(10),
             Text(
-              allGenres,
+              "$allGenres | ${itemData.title}",
               style: themeData.textTheme.headline5,
             )
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class GenreItem extends StatelessWidget {
-  final dynamic itemData;
-
-  const GenreItem({Key? key, this.itemData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    return GestureDetector(
-      onTap: () {},
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        child: Row(
-          children: [itemData.genreName]
-              .map((filter) => ChoiceOption(
-                    text: filter,
-                    itemData: itemData,
-                  ))
-              .toList(),
         ),
       ),
     );

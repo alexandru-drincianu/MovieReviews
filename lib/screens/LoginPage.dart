@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ import '../model/userServices.dart';
 import '../widgets/nav-drawer.dart';
 import 'LandingPage.dart';
 
-late User loggedInUser;
+var loggedInUser;
 bool isLoggedIn = false;
 
 class LoginPage extends StatefulWidget {
@@ -20,16 +22,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  late Future<List<User>> futureUser;
   var rememberValue = false;
   late String _email = "";
   late String _password = "";
-
-  @override
-  void initState() {
-    super.initState();
-    futureUser = fetchUsersList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 60,
+              height: 10,
             ),
             Form(
               key: _formKey,
@@ -99,26 +94,28 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      futureUser.then((users) {
-                        for (var user in users) {
-                          if (_formKey.currentState!.validate()) {
-                            if (user.email == _email &&
-                                user.password == _password) {
-                              loggedInUser = user;
-                              isLoggedIn = true;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const LandingPage()),
-                              );
-                            }
-                          }
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        loggedInUser = await logInUser(_email, _password);
+                        if (isLoggedIn == true) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LandingPage()),
+                          );
+                        } else {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Invalid Credentials.'),
+                            ),
+                          );
                         }
-                      });
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(40, 15, 40, 15),
@@ -131,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
